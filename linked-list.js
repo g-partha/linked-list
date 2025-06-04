@@ -74,13 +74,47 @@ export class LinkedList {
   }
   toString() {
     let string = "";
-    if (this.firstNode === null) return 'null';
+    if (this.firstNode === null) return "null";
     let currentNode = this.firstNode;
     while (currentNode) {
       string += `(${currentNode.value}) -> `;
       currentNode = currentNode.nextNode;
     }
-    return string + 'null';
+    return string + "null";
+  }
+  insertAt(value, index) {
+    if (this.firstNode === null) {
+      if (index === 0) {
+        this.append(value)
+        return true;
+    }
+      return false;
+    }
+    if (index < 0 || index > this.size) return false;
+    if (index === 0) {
+      this.prepend(value);
+      return true;
+    }
+    if (index === this.size) {
+      this.append(value);
+      return true;
+    }
+
+    let atIndex = this.at(index);
+    let atIndexMinusOne = this.at(index - 1);
+    atIndexMinusOne.nextNode = new Node(value, atIndex);
+    return true;
+  }
+  removeAt(index) {
+    if (index < 0 || index >= this.size) return false;
+    if (index === 0) {
+      this.firstNode = this.firstNode.nextNode;
+      return true;
+    }
+    let atIndexMinusOne = this.at(index - 1);
+    let atIndexPlusOne = this.at(index + 1);
+    atIndexMinusOne.nextNode = atIndexPlusOne;
+    return true;
   }
 }
 class Node {
