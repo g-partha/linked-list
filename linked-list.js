@@ -20,12 +20,9 @@ export class LinkedList {
     this.firstNode = new Node(value, secondNode);
   }
   get size() {
-    if (this.firstNode === null) {
-      return 0;
-    }
+    let totalNodes = 0;
     let currentNode = this.firstNode;
-    let totalNodes = 1;
-    while (currentNode.nextNode) {
+    while (currentNode) {
       totalNodes++;
       currentNode = currentNode.nextNode;
     }
@@ -35,32 +32,56 @@ export class LinkedList {
     return this.firstNode;
   }
   get tail() {
-    if (this.firstNode === null) {
-      return this.firstNode;
-    }
     let currentNode = this.firstNode;
-    while (currentNode.nextNode) {
+    while (currentNode) {
+      if (currentNode.nextNode === null) return currentNode;
       currentNode = currentNode.nextNode;
     }
     return currentNode;
   }
   at(index) {
-    if (this.firstNode === null) {
-      return `Not available at index ${index}`;
-    }
+    if (index < 0) return null;
     let currentNode = this.firstNode;
     let currentIndex = 0;
-    if (index === 0) return this.firstNode;
-    while (currentNode.nextNode) {
+    while (currentNode) {
+      if (index === currentIndex) return currentNode;
       currentIndex++;
       currentNode = currentNode.nextNode;
-      if (index === currentIndex) return currentNode;
     }
-    return `Not available at index ${index}`;
+    return null;
   }
-  pop() {}
-  contains(value) {}
-  toString() {}
+  pop() {
+    if (this.firstNode === null || this.firstNode.nextNode === null) {
+      this.firstNode = null;
+      return;
+    }
+    let currentNode = this.firstNode;
+    while (currentNode.nextNode) {
+      if (currentNode.nextNode.nextNode === null) {
+        currentNode.nextNode = null;
+        return;
+      }
+      currentNode = currentNode.nextNode;
+    }
+  }
+  contains(value) {
+    let currentNode = this.firstNode;
+    while (currentNode) {
+      if (currentNode.value === value) return true;
+      currentNode = currentNode.nextNode;
+    }
+    return false;
+  }
+  toString() {
+    let string = "";
+    if (this.firstNode === null) return 'null';
+    let currentNode = this.firstNode;
+    while (currentNode) {
+      string += `(${currentNode.value}) -> `;
+      currentNode = currentNode.nextNode;
+    }
+    return string + 'null';
+  }
 }
 class Node {
   constructor(value = null, nextNode = null) {
